@@ -1,7 +1,9 @@
 import "./globals.css";
+import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import NavBar from "./NavBar";
 import { roboto } from "./ui/fonts";
+import { Theme } from "@radix-ui/themes";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,8 +18,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={roboto.className}>
-        <NavBar />
-        <main>{children}</main>
+        <Theme>
+          <NavBar />
+          <main>{children}</main>
+        </Theme>
       </body>
     </html>
   );

@@ -18,9 +18,9 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={roboto.className}>
-        <Theme>
+        <Theme appearance='light' accentColor='violet'>
           <NavBar />
-          <main>{children}</main>
+          <main className='px-5'>{children}</main>
         </Theme>
       </body>
     </html>

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getIssueById } from "../api/issues";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
-import IssueStatusBadge from "@/app/components/IssueStatusBadge";
+import { IssueStatusBadge } from "@/app/components";
 import Markdown from "react-markdown";
 
 export default async function Page({ params }: { params: { id: string } }) {

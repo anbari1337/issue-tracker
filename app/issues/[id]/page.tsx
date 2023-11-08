@@ -1,8 +1,8 @@
+import { Box, Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import { getIssueById } from "../api/issues";
-import { Card, Flex, Heading, Text } from "@radix-ui/themes";
-import { IssueStatusBadge } from "@/app/components";
-import Markdown from "react-markdown";
+import EditButton from "../components/EditButton";
+import IssueDetails from "../components/IssueDetails";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const issue = await getIssueById(params.id);
@@ -10,15 +10,13 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (!issue) return notFound();
 
   return (
-    <div>
-      <Heading>{issue.title}</Heading>
-      <Flex gap='2' my='2'>
-        <IssueStatusBadge status={issue.status} />
-        <Text className='text-gray-500'>{issue.createdAT.toDateString()}</Text>
-      </Flex>
-      <Card className='prose mt-5'>
-        <Markdown>{issue.description}</Markdown>
-      </Card>
-    </div>
+    <Grid columns={{ initial: "1", md: "2" }} gap='5'>
+      <Box>
+        <IssueDetails issue={issue} />
+      </Box>
+      <Box>
+        <EditButton issueId={issue.id} />
+      </Box>
+    </Grid>
   );
 }

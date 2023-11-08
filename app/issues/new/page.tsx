@@ -10,10 +10,13 @@ import { z } from "zod";
 import { createIssueSchema } from "@/utils/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import { useRouter } from "next/navigation";
+import Spinner from "@/app/components/Spinner";
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
 function Page() {
+  const router = useRouter();
   const {
     control,
     register,
@@ -27,6 +30,7 @@ function Page() {
     resolver: zodResolver(createIssueSchema),
   });
   const [error, setError] = React.useState<null | string>(null);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const createIssue = async (data: IssueForm) => {
     console.log({ data });
@@ -35,6 +39,7 @@ function Page() {
       description: data.description,
     });
     try {
+      setLoading(true);
       const response = await fetch("/api/issues", {
         method: "POST",
         headers: {
@@ -43,7 +48,9 @@ function Page() {
         body: requestBody,
       });
       if (!response.ok) throw new Error();
+      router.push("/issues");
     } catch (error) {
+      setLoading(false);
       setError("Unexpected error occured.");
     }
   };
@@ -74,7 +81,9 @@ function Page() {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button>Submit New Issue</Button>
+        <Button disabled={loading}>
+          {loading ? <Spinner /> : "Submit New Issue"}
+        </Button>
       </form>
     </div>
   );

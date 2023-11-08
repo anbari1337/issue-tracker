@@ -2,7 +2,7 @@ import { Table } from "@radix-ui/themes";
 import { getAllIssues } from "./api/issues";
 import IssueStatusBadge from "../components/IssueStatusBadge";
 import IssuesToolbar from "./components/IssuesToolbar";
-import Link from "next/link";
+import Link from "@/app/components/Link";
 
 export default async function Page() {
   const issues = await getAllIssues();

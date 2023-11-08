@@ -1,6 +1,7 @@
 import { Button, Table } from "@radix-ui/themes";
 import Link from "next/link";
 import { getAllIssues } from "./api/issues";
+import IssueStatusBadge from "../components/IssueStatusBadge";
 
 export default async function Page() {
   const issues = await getAllIssues();
@@ -29,7 +30,7 @@ export default async function Page() {
             <Table.Row key={issue.id}>
               <Table.RowHeaderCell>{issue.title}</Table.RowHeaderCell>
               <Table.Cell className='hidden md:table-cell'>
-                {issue.status}
+                <IssueStatusBadge status={issue.status} />
               </Table.Cell>
               <Table.Cell className='hidden md:table-cell'>
                 {issue.createdAT.toDateString()}

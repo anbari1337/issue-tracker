@@ -1,11 +1,11 @@
-import { Button, Table } from "@radix-ui/themes";
-import Link from "next/link";
-import { getAllIssues } from "./api/issues";
-import IssueStatusBadge from "../components/IssueStatusBadge";
+import { Table } from "@radix-ui/themes";
+import React from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import IssuesToolbar from "./components/IssuesToolbar";
 
-export default async function Page() {
-  const issues = await getAllIssues();
+const IssueLoadingPage = () => {
+  const issues = Array(5).fill(0);
   return (
     <div>
       <IssuesToolbar />
@@ -23,19 +23,20 @@ export default async function Page() {
         </Table.Header>
 
         <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
+          {issues.map((issue, index) => (
+            // I used index here as a key because there will no operation because it's just a loading page !
+            <Table.Row key={index}>
               <Table.RowHeaderCell>
-                {issue.title}
+                <Skeleton />
                 <div className='block md:hidden'>
-                  <IssueStatusBadge status={issue.status} />
+                  <Skeleton />
                 </div>
               </Table.RowHeaderCell>
               <Table.Cell className='hidden md:table-cell'>
-                <IssueStatusBadge status={issue.status} />
+                <Skeleton />
               </Table.Cell>
               <Table.Cell className='hidden md:table-cell'>
-                {issue.createdAT.toDateString()}
+                <Skeleton />
               </Table.Cell>
             </Table.Row>
           ))}
@@ -43,4 +44,6 @@ export default async function Page() {
       </Table.Root>
     </div>
   );
-}
+};
+
+export default IssueLoadingPage;
